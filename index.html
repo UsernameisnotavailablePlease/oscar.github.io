@@ -1,4 +1,7 @@
-<html><head><base href="https://oscarpresidente.cl/">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <base href="https://oscarpresidente.cl/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Óscar Landerretche para Presidente de Chile</title>
@@ -103,7 +106,7 @@
             </div>
         </div>
 
-<img src="Óscar Landerretche.jpg" alt="Óscar Landerretche">
+        <img src="Óscar Landerretche.jpg" alt="Óscar Landerretche" class="oscar-photo">
         
         <div class="reasons fade-in">
             <h2>¿Por qué Óscar Landerretche?</h2>
@@ -118,29 +121,34 @@
     </div>
 
     <script>
-        let hasVoted = false;
-        let yesVotes = 0;
-        let noVotes = 0;
+        // Cargar los votos desde Local Storage
+        let yesVotes = localStorage.getItem('yesVotes') ? parseInt(localStorage.getItem('yesVotes')) : 0;
+        let noVotes = localStorage.getItem('noVotes') ? parseInt(localStorage.getItem('noVotes')) : 0;
 
+        // Función para actualizar los resultados en la página
         function updateVotes() {
             document.getElementById('yesCount').textContent = yesVotes;
             document.getElementById('noCount').textContent = noVotes;
         }
 
+        // Llamar a la función para mostrar los votos iniciales
+        updateVotes();
+
+        // Función para manejar el voto
         function vote(isYes) {
-            if (!hasVoted) {
-                if (isYes) {
-                    yesVotes++;
-                } else {
-                    noVotes++;
-                }
-                hasVoted = true;
-                updateVotes();
-                document.getElementById('voteYes').disabled = true;
-                document.getElementById('voteNo').disabled = true;
+            if (isYes) {
+                yesVotes++;
+                localStorage.setItem('yesVotes', yesVotes); // Guardar en Local Storage
+            } else {
+                noVotes++;
+                localStorage.setItem('noVotes', noVotes); // Guardar en Local Storage
             }
+            updateVotes(); // Actualizar la visualización
+            document.getElementById('voteYes').disabled = true;
+            document.getElementById('voteNo').disabled = true;
         }
 
+        // Asignar eventos a los botones
         document.getElementById('voteYes').addEventListener('click', () => vote(true));
         document.getElementById('voteNo').addEventListener('click', () => vote(false));
     </script>
